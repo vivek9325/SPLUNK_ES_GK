@@ -1,0 +1,14 @@
+props.conf
+
+[malware:prestige]
+SHOULD_LINEMERGE = false
+LINE_BREAKER = ([\r\n]+)
+NO_BINARY_CHECK = true
+TRANSFORMS-demoExtraction = xmlExtraction1
+
+transforms.conf
+
+[xmlExtraction1]
+REGEX = Provider Name='(?P<provider_name>.*)'\s+Guid='{(?P<guid>.*)}'\/><EventID>(?P<event_id>\d+)<\/EventID><Version>(?P<version>\d+)<\/Version><Level>(?P<level>\d+)<\/Level><Task>(?P<task>\d+)<\/Task><Opcode>(?P<opcode>\d+)<\/Opcode><Keywords>(?P<keywords>.*)<\/Keywords><TimeCreated SystemTime='(?P<time_created>.*)Z'\/><EventRecordID>(?P<eventrecord_id>\d+)<\/EventRecordID>.*<Execution ProcessID='(?P<execu_process_id>\d+)'\s+ThreadID='(?P<thread_id>\d+)'\/><Channel>(?P<channel>.*)<\/Channel><Computer>(?P<computer>.*)<\/Computer><Security UserID='(?P<user_id>.*)\/>.*<Data Name='Image'>(?<d_image>.*)<\/Data><Data Name='TargetFilename'>(?P<d_target_file_name>.*)<\/Data><Data Name='Hashes'>MD5=(?P<hash_md>.*),SHA256=(?P<hash_sha>.*),IMPHASH=(?P<hash_imphash>.*)<\/Data><Data Name='IsExecutable'>
+FORMAT = provider_name::$1 guid::$2 event_id::$3 version::$4 level::$5 task::$6 opcode::$7 keywords::$8 time_created::$9 eventrecord_id::$10 execu_process_id::$11 thread_id::$12 channel::$13 computer::#14 user_id::$15 d_image::$16 d_target_file_name::$17 hash_md::$18 hash_sha::$19 hash_imphash::$20
+WRITE_META = true
